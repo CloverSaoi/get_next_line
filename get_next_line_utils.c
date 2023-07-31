@@ -6,7 +6,7 @@
 /*   By: ddutta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:55:21 by ddutta            #+#    #+#             */
-/*   Updated: 2023/07/26 17:42:28 by ddutta           ###   ########.fr       */
+/*   Updated: 2023/07/31 19:12:33 by ddutta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	join = (char *)malloc(len * sizeof(char));
 	if (join == 0)
 		return (NULL);
+	join[len] = '\0';// IS THIS CORRECT? WHAT HAPPENS WITH FT_STRJOIN("", "");
 	i = 0;
 	j = 0;
 	len = ft_strlen(s1);
@@ -86,7 +87,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		j++;
 	}
 	return (join);
-
 }
 
 

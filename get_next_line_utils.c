@@ -6,7 +6,7 @@
 /*   By: ddutta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:55:21 by ddutta            #+#    #+#             */
-/*   Updated: 2023/07/31 19:12:33 by ddutta           ###   ########.fr       */
+/*   Updated: 2023/09/08 21:38:52 by ddutta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ char	*ft_strdup(const char *s1)
 	size_t	i;
 	char	*s1_dup;
 
-	len = ft_strlen(s1) + 1;
+	len = ft_strlen(s1);
 	i = 0;
-	s1_dup = malloc(len * sizeof(char));
+	s1_dup = malloc((len + 1) * sizeof(char));
 	while (i < len)
 	{
 		s1_dup[i] = s1[i];
@@ -38,18 +38,17 @@ char	*ft_strdup(const char *s1)
 	}
 	s1_dup[i] = '\0';
 	return (s1_dup);
-
-
 }
 
-char	*strchr(const char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
 	int i;
+	int	j;
 
 	i = 0;
 	j = ft_strlen(s);
 	if (c == 0)
-		return ((char *)(s + j);
+		return ((char *)(s + j));
 	while (i < j)
 	{
 		if (s[i] == (char)c)
@@ -87,6 +86,22 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		j++;
 	}
 	return (join);
+}
+
+size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize)
+{
+	size_t	i;
+
+	i = 0;
+	if (dstsize == 0)
+		return (ft_strlen(src));
+	while (src[i] != '\0' && i < (dstsize - 1))
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (ft_strlen(src));
 }
 
 

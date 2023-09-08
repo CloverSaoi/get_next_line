@@ -6,7 +6,7 @@
 /*   By: ddutta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:55:03 by ddutta            #+#    #+#             */
-/*   Updated: 2023/09/08 21:40:50 by ddutta           ###   ########.fr       */
+/*   Updated: 2023/09/08 22:14:18 by ddutta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ char	*get_next_line(int fd)
 
 	if (fbuffer == NULL)
 		fbuffer = ft_strdup("");
-	lbuffer[0] = '\0';
-	while (ft_strchr(lbuffer, '\n') == NULL)
+	while (ft_strchr(fbuffer, '\n') == NULL)
 	{
 		size = read(fd, lbuffer, BUFFER_SIZE);
 		if (size == 0)
@@ -41,7 +40,7 @@ char	*get_next_line(int fd)
 	}
 	size = 0;
 	if (ft_strchr(fbuffer, '\n') != NULL)
-		size = (ft_strchr(fbuffer, '\n') - fbuffer) + 1;
+		size = (ft_strchr(fbuffer, '\n') - fbuffer) + 2;
 	if (size == 0 || size == 1)
 		size = ft_strlen(fbuffer) + 1;
 	rbuffer = malloc(size);
@@ -74,6 +73,6 @@ int main(void)
 		{
 			printf("%s", achicken);
 			free(achicken);
-			achicken = get_next_line(achicken);
+			achicken = get_next_line(chicken);
 		}
 }

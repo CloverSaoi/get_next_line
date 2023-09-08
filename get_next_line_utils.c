@@ -6,7 +6,7 @@
 /*   By: ddutta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:55:21 by ddutta            #+#    #+#             */
-/*   Updated: 2023/09/08 21:38:52 by ddutta           ###   ########.fr       */
+/*   Updated: 2023/09/08 22:04:57 by ddutta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,33 +59,21 @@ char	*ft_strchr(const char *s, int c)
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
-{
-	size_t	len;
-	size_t	i;
-	size_t	j;
-	char	*join;
+{	
+	size_t	s1len;
+	size_t	s2len;
+	char	*dst;
 
-	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	join = (char *)malloc(len * sizeof(char));
-	if (join == 0)
+	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	join[len] = '\0';// IS THIS CORRECT? WHAT HAPPENS WITH FT_STRJOIN("", "");
-	i = 0;
-	j = 0;
-	len = ft_strlen(s1);
-	while (i < len && join)
-	{
-		join[i] = s1[i];
-		i++;
-	}
-	len = ft_strlen(s2);
-	while (j < len && join)
-	{
-		join[i] = s2[j];
-		i++;
-		j++;
-	}
-	return (join);
+	s1len = ft_strlen(s1);
+	s2len = ft_strlen(s2);
+	dst = malloc(s1len + s2len + 1);
+	if (dst == NULL)
+		return (NULL);
+	ft_strlcpy(dst, s1, s1len);
+	ft_strlcpy(dst + s1len, s2, s2len + 1);
+	return (dst);
 }
 
 size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize)

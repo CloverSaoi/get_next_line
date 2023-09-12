@@ -6,7 +6,7 @@
 /*   By: ddutta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:55:03 by ddutta            #+#    #+#             */
-/*   Updated: 2023/09/12 19:38:36 by ddutta           ###   ########.fr       */
+/*   Updated: 2023/09/12 19:58:47 by ddutta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 char	*get_next_line(int fd)
 {
-	static char	*fbuffer;
+	static char	*fbuffer = NULL;
 	char 		lbuffer[BUFFER_SIZE + 1];
 	char 		*rbuffer;
 	ssize_t		size;
@@ -62,8 +62,11 @@ char	*get_next_line(int fd)
 		free(temp);
 	}
 	else
+	{
+		free(fbuffer);
 		fbuffer = NULL;
-	return (rbuffer);
+	}
+		return (rbuffer);
 	// We're guaranteed to either have at least a one line in the buffer or end of file.
 	//extract
 	//	copy first line from fbuffer

@@ -6,7 +6,7 @@
 /*   By: ddutta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:55:21 by ddutta            #+#    #+#             */
-/*   Updated: 2023/09/12 19:26:00 by ddutta           ###   ########.fr       */
+/*   Updated: 2023/09/12 21:10:52 by ddutta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 size_t	ft_strlen(const	char	*c)
 {
-	int 	i;
+	int	i;
 
 	i = 0;
-	while(c[i] != '\0')
+	while (c[i] != '\0')
 		i++;
 	return (i);
 }
@@ -42,7 +42,7 @@ char	*ft_strdup(const char *s1)
 
 char	*ft_strchr(const char *s, int c)
 {
-	int i;
+	int	i;
 	int	j;
 
 	i = 0;
@@ -55,11 +55,11 @@ char	*ft_strchr(const char *s, int c)
 			return ((char *)(s + i));
 		i++;
 	}
-	return (NULL);	
+	return (NULL);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
-{	
+{
 	size_t	s1len;
 	size_t	s2len;
 	char	*dst;
@@ -91,5 +91,3 @@ size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize)
 	dst[i] = '\0';
 	return (ft_strlen(src));
 }
-
-

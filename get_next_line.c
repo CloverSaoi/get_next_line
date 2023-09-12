@@ -6,7 +6,7 @@
 /*   By: ddutta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:55:03 by ddutta            #+#    #+#             */
-/*   Updated: 2023/09/12 19:58:47 by ddutta           ###   ########.fr       */
+/*   Updated: 2023/09/12 21:07:27 by ddutta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,80 +16,72 @@
 # define BUFFER_SIZE 42
 #endif
 
-char	*get_next_line(int fd)
+char	*gnl_clean(char **fbuffer)
 {
-	static char	*fbuffer = NULL;
-	char 		lbuffer[BUFFER_SIZE + 1];
-	char 		*rbuffer;
-	ssize_t		size;
-	char 		*temp;
+	free(*fbuffer);
+	*fbuffer = NULL;
+	return (NULL);
+}
 
-	if (fbuffer == NULL)
-		fbuffer = ft_strdup("");
+char	*gnl_read(int fd, char *fbuffer)
+{
+	char	lbuffer[BUFFER_SIZE + 1];
+	char	*temp;
+	ssize_t	size;
+
 	while (ft_strchr(fbuffer, '\n') == NULL)
 	{
 		size = read(fd, lbuffer, BUFFER_SIZE);
 		if (size == 0)
-				break ;
+			break ;
 		if (size == -1)
-		{
-			free(fbuffer);
-			fbuffer = NULL;
-			return (NULL);
-		}
+			return (gnl_clean(&fbuffer));
 		lbuffer[size] = '\0';
-		temp = fbuffer;
-		fbuffer = ft_strjoin(fbuffer, lbuffer);
-		free(temp);
-	}
-	if (ft_strlen(fbuffer) == 0)
-	{
+		temp = ft_strjoin(fbuffer, lbuffer);
 		free(fbuffer);
-		fbuffer = NULL;
-		return (NULL);
+		fbuffer = temp;
 	}
-	size = 0;
+	return (fbuffer);
+}
+
+char	*gnl_extract(char **buffer)
+{
+	ssize_t	size;
+	char	*temp;
+	char	*fbuffer;
+	char	*rbuffer;
+
+	fbuffer = *buffer;
+	size = ft_strlen(fbuffer) + 1;
 	if (ft_strchr(fbuffer, '\n') != NULL)
 		size = (ft_strchr(fbuffer, '\n') - fbuffer) + 2;
-	if (size == 0 || size == 1)
-		size = ft_strlen(fbuffer) + 1;
 	rbuffer = malloc(size);
 	ft_strlcpy(rbuffer, fbuffer, size);
-	temp = fbuffer;
 	if (ft_strchr(fbuffer, '\n') != NULL)
 	{
-		fbuffer = ft_strdup(ft_strchr(fbuffer, '\n') + 1);
-		free(temp);
+		temp = ft_strdup(ft_strchr(fbuffer, '\n') + 1);
+		free(fbuffer);
+		fbuffer = temp;
 	}
 	else
 	{
 		free(fbuffer);
 		fbuffer = NULL;
 	}
-		return (rbuffer);
-	// We're guaranteed to either have at least a one line in the buffer or end of file.
-	//extract
-	//	copy first line from fbuffer
-	//	remove first line from fbuffer
-	
-	// return copied first line
+	*buffer = fbuffer;
+	return (rbuffer);
 }
-#ifdef _MAIN_
-#include <stdio.h>
-#include <fcntl.h>
-int main(int argc, char **argv)
+
+char	*get_next_line(int fd)
 {
-		int chicken;
+	static char	*fbuffer = NULL;
 
-		chicken = open(argv[1], O_RDONLY);
-
-		char *achicken;
-		achicken = get_next_line(chicken);
-		while (achicken)
-		{
-			printf("%s", achicken);
-			free(achicken);
-			achicken = get_next_line(chicken);
-		}
+	if (fbuffer == NULL)
+		fbuffer = ft_strdup("");
+	fbuffer = gnl_read(fd, fbuffer);
+	if (fbuffer == NULL)
+		return (NULL);
+	if (ft_strlen(fbuffer) == 0)
+		return (gnl_clean(&fbuffer));
+	return (gnl_extract(&fbuffer));
 }
-#endif

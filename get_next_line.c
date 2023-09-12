@@ -6,7 +6,7 @@
 /*   By: ddutta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:55:03 by ddutta            #+#    #+#             */
-/*   Updated: 2023/09/08 22:14:18 by ddutta           ###   ########.fr       */
+/*   Updated: 2023/09/12 19:38:36 by ddutta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,23 @@ char	*get_next_line(int fd)
 	{
 		size = read(fd, lbuffer, BUFFER_SIZE);
 		if (size == 0)
-				break;
+				break ;
 		if (size == -1)
-				return (NULL);
+		{
+			free(fbuffer);
+			fbuffer = NULL;
+			return (NULL);
+		}
 		lbuffer[size] = '\0';
 		temp = fbuffer;
 		fbuffer = ft_strjoin(fbuffer, lbuffer);
 		free(temp);
+	}
+	if (ft_strlen(fbuffer) == 0)
+	{
+		free(fbuffer);
+		fbuffer = NULL;
+		return (NULL);
 	}
 	size = 0;
 	if (ft_strchr(fbuffer, '\n') != NULL)
@@ -47,7 +57,10 @@ char	*get_next_line(int fd)
 	ft_strlcpy(rbuffer, fbuffer, size);
 	temp = fbuffer;
 	if (ft_strchr(fbuffer, '\n') != NULL)
+	{
 		fbuffer = ft_strdup(ft_strchr(fbuffer, '\n') + 1);
+		free(temp);
+	}
 	else
 		fbuffer = NULL;
 	return (rbuffer);
@@ -58,14 +71,14 @@ char	*get_next_line(int fd)
 	
 	// return copied first line
 }
-
+#ifdef _MAIN_
 #include <stdio.h>
 #include <fcntl.h>
-int main(void)
+int main(int argc, char **argv)
 {
 		int chicken;
 
-		chicken = open("hello.txt", O_RDONLY);
+		chicken = open(argv[1], O_RDONLY);
 
 		char *achicken;
 		achicken = get_next_line(chicken);
@@ -76,3 +89,4 @@ int main(void)
 			achicken = get_next_line(chicken);
 		}
 }
+#endif

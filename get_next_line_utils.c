@@ -6,7 +6,7 @@
 /*   By: ddutta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:55:21 by ddutta            #+#    #+#             */
-/*   Updated: 2023/09/08 22:04:57 by ddutta           ###   ########.fr       */
+/*   Updated: 2023/09/12 19:26:00 by ddutta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	dst = malloc(s1len + s2len + 1);
 	if (dst == NULL)
 		return (NULL);
-	ft_strlcpy(dst, s1, s1len);
+	ft_strlcpy(dst, s1, s1len + 1);
 	ft_strlcpy(dst + s1len, s2, s2len + 1);
 	return (dst);
 }
